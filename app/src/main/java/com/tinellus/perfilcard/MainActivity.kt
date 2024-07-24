@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,12 +26,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,6 +62,9 @@ class MainActivity : ComponentActivity() {
 @SuppressLint("ResourceAsColor")
 @Composable
 fun myShowCard() {
+    var showAllProfiles = remember {
+        mutableStateOf(false)
+    }
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -100,6 +107,12 @@ fun myShowCard() {
                         fontWeight = FontWeight.Bold
                     )
                 }
+                Button(onClick = { showAllProfiles.value = !showAllProfiles.value }) {
+                    Text(text = "Ver Pefis")
+                }
+            }
+            if(showAllProfiles.value){
+                Content()
             }
 
         }
@@ -132,7 +145,7 @@ fun GreetingPreview() {
     }
 }
 
-@Preview
+//@Preview
 @Composable
 fun Content() {
     val myItems = listOf("Teste1", "teste 2", "Testando...")
@@ -159,21 +172,27 @@ private fun Portfolios(myItems: List<String>) {
         LazyColumn(contentPadding = PaddingValues(28.dp)) {
 
                 items(myItems) { item ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(60.dp)
-                            .padding(6.dp)
-                            .border(2.dp, Color.Gray) ,
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                            Spacer(modifier = Modifier.size(7.dp))
-                            ProfilePhoto(35.dp, 2.dp, Color.Gray)
-                            Spacer(modifier = Modifier.size(12.dp))
-                            Text(text = item)
+                   Card(
+                       modifier = Modifier
+                           .fillMaxWidth()
+                           .padding(12.dp)
+                           .background(Color.White),
+                   ) {
+                       Row(
+                           modifier = Modifier
+                               .fillMaxWidth()
+                               .height(60.dp)
+                               .background(Color.White),
+                           horizontalArrangement = Arrangement.Start,
+                           verticalAlignment = Alignment.CenterVertically
+                       ) {
+                           Spacer(modifier = Modifier.size(7.dp))
+                           ProfilePhoto(35.dp, 2.dp, Color.Gray)
+                           Spacer(modifier = Modifier.size(12.dp))
+                           Text(text = item)
 
-                    }
+                       }
+                   }
                 }
 
         }
